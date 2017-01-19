@@ -157,7 +157,7 @@ add_port () {
         ip netns exec "$PID" ip route add default via "$GATEWAY"
     fi
 
-    ip netns exec "$PID" dhclient -i "$INTERFACE"
+    ip netns exec "$PID" dhclient -nw -i "$INTERFACE"
 }
 
 del_port () {
