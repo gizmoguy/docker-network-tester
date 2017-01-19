@@ -62,13 +62,13 @@ set +ex
 
 echo "==== Curl tests ===="
 
-echo "+ curl http://www.nznog.org"
-nznog_sha256=$(curl http://www.nznog.org | sha256sum | awk '{print $1}')
-if [ "$nznog_sha256" != "723c32dddb72f3f0c7db041ea68951147179459b88663d1efa131cf4a09d568f" ]; then
-    echo "bad sha256sum for www.nznog.org"
+echo "+ curl https://nznog.cloud"
+nznog_sha256=$(curl https://nznog.cloud | sha256sum | awk '{print $1}')
+if [ "$nznog_sha256" != "c9220a0428d909bd55fe6a6069b8bc5d6d148d56c9fa077ffac7c8d6d39625e3" ]; then
+    echo "bad sha256sum for nznog.cloud"
     exit 99
 else
-    echo "valid sha256sum for www.nznog.org"
+    echo "valid sha256sum for nznog.cloud"
 fi
 
 echo "+ curl https://httpbin.org/html"
