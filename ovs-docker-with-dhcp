@@ -157,7 +157,10 @@ add_port () {
         ip netns exec "$PID" ip route add default via "$GATEWAY"
     fi
 
-    ip netns exec "$PID" dhclient -nw -i "$INTERFACE"
+    if [ ! -d /var/run/network-tester/ ]; then
+        mkdir /var/run/network-tester/
+    fi
+    ip netns exec "$PID" dhclient -nw -pf "/var/run/network-tester/$CONTAINER.pid" -i "$INTERFACE"
 }
 
 del_port () {
@@ -173,6 +176,12 @@ del_port () {
     PORT=`get_port_for_container_interface "$CONTAINER" "$INTERFACE"`
     if [ -z "$PORT" ]; then
         exit 1
+    fi
+
+    if [ -f "/var/run/network-tester/$CONTAINER.pid" ]; then
+        DHCLIENT_PID=$(cat "/var/run/network-tester/$CONTAINER.pid")
+        kill "$DHCLIENT_PID"
+        rm "/var/run/network-tester/$CONTAINER.pid"
     fi
 
     ovs_vsctl --if-exists del-port "$PORT"
@@ -192,6 +201,12 @@ del_ports () {
              external_ids:container_id="$CONTAINER"`
     if [ -z "$PORTS" ]; then
         exit 0
+    fi
+
+    if [ -f "/var/run/network-tester/$CONTAINER.pid" ]; then
+        DHCLIENT_PID=$(cat "/var/run/network-tester/$CONTAINER.pid")
+        kill "$DHCLIENT_PID"
+        rm "/var/run/network-tester/$CONTAINER.pid"
     fi
 
     for PORT in $PORTS; do
