@@ -2,7 +2,7 @@
 
 # Spin up dockers
 for i in `seq 1 100`; do
-    sudo docker run --rm -d --network=none gizmoguy/network-tester
+    sudo docker run -d --network=none gizmoguy/network-tester
 done
 
 # Kick off dockers by giving them network
