@@ -97,4 +97,17 @@ fi
 
 echo "==== Done ===="
 
-tail -f /dev/null
+while true; do
+    # Enter keepalive loop
+    if [ "$IPv4" = true ]; then
+        ping -c 1 google.com > /dev/null
+
+        echo "+ ping -c 10 google.com"
+    fi
+    if [ "$IPv6" = true ]; then
+        ping6 -c 1 google.com > /dev/null
+    fi
+
+    randtime=$(shuf -i 1-30 -n 1)
+    sleep $randtime
+done
