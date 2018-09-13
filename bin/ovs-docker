@@ -160,7 +160,10 @@ add_port () {
     if [ ! -d /var/run/network-tester/ ]; then
         mkdir /var/run/network-tester/
     fi
-    ip netns exec "$PID" dhclient -nw -pf "/var/run/network-tester/$CONTAINER.pid" -i "$INTERFACE"
+
+    if [ "$IPv4" = true ]; then
+        ip netns exec "$PID" dhclient -nw -pf "/var/run/network-tester/$CONTAINER.pid" -i "$INTERFACE"
+    fi
 }
 
 del_port () {

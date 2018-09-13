@@ -1,5 +1,19 @@
+## Build docker
+
 ```
 docker build -t gizmoguy/network-tester .
-docker run --rm -it --network=none gizmoguy/network-tester
-sudo ovs-docker-with-dhcp add-port br-wired eth0 [docker-container-id]
+```
+
+## Run docker
+
+Run one:
+
+```
+IPv4=true IPv6=true BRIDGE=br-wired ./start-a-docker.sh
+```
+
+Run many:
+
+```
+IPv4=true IPv6=true BRIDGE=br-wired ./runlots.sh
 ```
